@@ -1,0 +1,57 @@
+{% extends 'control_panel.html' %} 
+{% load static %}
+
+{% block title %}Listado de usuarios{% endblock title %}
+
+{% block titulo %}
+Agregar/Editar usuario
+{% endblock titulo%}
+
+
+{% block bajada %}
+Los usuario agregados son usuarios administrador
+{% endblock bajada %}
+
+{% block contenido %}
+
+<form action="{% url 'user_app:add_user'%}" method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <label >{{form.username.label}}</label>
+            {{form.username}}
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <label >{{form.first_name.label}}</label>
+            {{form.first_name}}
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <label >{{form.last_name.label}}</label>
+            {{form.last_name}}
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <label >{{form.email.label}}</label>
+            {{form.email}}
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <label >{{form.password.label}}</label>
+            {{form.password}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-3 col-xs-12">
+            <br>
+            <button type="submit" class="btn btn-primary"><span class="fa fa-save"></span> Guardar</button>
+        </div>
+    </div>
+</form>
+{% endblock contenido %}
+
+{% block js %}
+<script src="{% static '/apps/usuario/list_user.js' %}"></script>
+{% endblock %}

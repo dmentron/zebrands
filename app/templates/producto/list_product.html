@@ -1,0 +1,68 @@
+{% extends 'control_panel.html' %} 
+{% load static %}
+
+{% block title %}Product list{% endblock title %}
+
+{% block titulo %}
+Product list
+{% endblock titulo%}
+
+
+{% block bajada %}
+<a class="btn btn-app" data-toggle="modal" data-target=".bs-example-modal-lg">
+  <i class="fa fa-plus"></i> Add Product
+</a>
+{% endblock bajada %}
+
+{% block contenido %}
+<div id="app">
+  <table id="datatable" class="table table-striped" style="width:100%">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>SKU</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Mark</th>
+        <th>Type of product</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="producto in product_list" :key="producto.id">
+        <td>{$ producto.id $}</td>
+        <td>{$ producto.sku $}</td>
+        <td>{$ producto.nombre $}</td>
+        <td>{$ producto.precio $}</td>
+        <td>{$ producto.stock $}</td>
+        <td>{$ producto.marca.marca $}</td>
+        <td>{$ producto.tipo_producto.nombre_tipo $}</td>
+        <td>
+          <button type="button" class="btn btn-primary btn-sm" v-on:click="get_product(producto.id)" data-toggle="modal" data-target=".bs-example-modal-lg-edit">Edit</button>
+          <button type="button" class="btn btn-danger btn-sm" v-on:click="get_delete_product(producto.id)" data-toggle="modal" data-target=".bs-example-modal-sm-delete">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  {% include 'producto/include/product/modal_add_product.html' %}
+  {% include 'producto/include/product/modal_edit_product.html' %}
+  {% include 'producto/include/product/modal_delete.html' %}
+
+</div>
+
+{% endblock contenido %}
+
+{% block js %}
+<script src="{% static '/vue/apps/producto/list_product.js' %}"></script>
+
+<script>
+$(document).ready(function () {
+  $("#btn_delete").click(function () {
+    $(".bs-example-modal-sm-delete").modal('hide');
+  })
+})
+</script>
+{% endblock %}
+    

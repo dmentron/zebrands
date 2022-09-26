@@ -1,0 +1,58 @@
+{% extends 'control_panel.html' %} 
+{% load static %}
+
+{% block title %}Type Product list{% endblock title %}
+
+{% block titulo %}
+Type Product list
+{% endblock titulo%}
+
+
+{% block bajada %}
+<a class="btn btn-app" data-toggle="modal" data-target=".bs-example-modal-lg">
+  <i class="fa fa-plus"></i> Add Type Product
+</a>
+{% endblock bajada %}
+
+{% block contenido %}
+<div id="app">
+  <table id="datatable" class="table table-striped" style="width:100%">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Type Product</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="type in type_list" :key="type.id">
+        <td>{$ type.id $}</td>
+        <td>{$ type.nombre_tipo $}</td>
+        <td>
+          <button type="button" class="btn btn-primary btn-sm" v-on:click="get_type(type.id)" data-toggle="modal" data-target=".bs-example-modal-lg-edit">Edit</button>
+          <button type="button" class="btn btn-danger btn-sm" v-on:click="get_remove_type(type.id)" data-toggle="modal" data-target=".bs-example-modal-sm-delete">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  {% include 'producto/include/type_product/modal_add_type.html' %}
+  {% include 'producto/include/type_product/modal_edit_type.html' %}
+  {% include 'producto/include/type_product/modal_delete.html' %}
+
+</div>
+
+{% endblock contenido %}
+
+{% block js %}
+<script src="{% static '/vue/apps/producto/list_type_prod.js' %}"></script>
+
+<script>
+$(document).ready(function () {
+  $("#btn_delete").click(function () {
+    $(".bs-example-modal-sm-delete").modal('hide');
+  })
+})
+</script>
+{% endblock %}
+    

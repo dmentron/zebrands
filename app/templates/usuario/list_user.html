@@ -1,0 +1,192 @@
+{% extends 'control_panel.html' %} 
+{% load static %}
+
+{% block title %}User list{% endblock title %}
+
+{% block titulo %}
+User list
+{% endblock titulo%}
+
+
+{% block bajada %}
+<a class="btn btn-app" data-toggle="modal" data-target=".bs-example-modal-lg">
+  <i class="fa fa-plus"></i> Add User
+</a>
+{% endblock bajada %}
+
+{% block contenido %}
+<div id="app">
+  <table class="table table-striped" style="width:100%">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Last Name</th>
+        <th>First Name</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="usuario in user_list" :key="usuario.id">
+        <td>{$ usuario.id $}</td>
+        <td>{$ usuario.last_name $}</td>
+        <td>{$ usuario.first_name $}</td>
+        <td>{$ usuario.username $}</td>
+        <td>{$ usuario.email $}</td>
+        <td>
+          <button type="button" class="btn btn-primary btn-sm" v-on:click="get_user(usuario.id)" data-toggle="modal" data-target=".bs-example-modal-lg-edit">Edit</button>
+          <button type="button" class="btn btn-danger btn-sm" v-on:click="get_delete_user(usuario.id)" data-toggle="modal" data-target=".bs-example-modal-sm-delete">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Add New User</h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form method="post">
+          <div class="modal-body">
+              <div class="row">
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                      <label>Username</label>
+                      <input type="text" v-model="username" required="required" class="form-control">
+                  </div>
+
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                      <label>First name</label>
+                      <input type="text" v-model="first_name" required="required" class="form-control">
+                  </div>
+
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                      <label>Last name</label>
+                      <input type="text" v-model="last_name" required="required" class="form-control">
+                  </div>
+
+              </div>
+
+              <div class="row" style="margin-top: 25px;">
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                      <label>Email</label>
+                      <input type="text" v-model="email" required="required" class="form-control">
+                  </div>
+
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                      <label>Password</label>
+                      <input type="text" v-model="password" required="required" class="form-control">
+                  </div>
+              </div>
+
+              <div class="alert alert-danger alert-dismissible" id="error_save" role="alert" v-if="x_error_save" style="margin-top: 25px;">
+                <ul v-for="(item, index) in error_save">
+                  <li>{$ index $}: {$ item $}</li>
+                </ul>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="btn_save" class="btn btn-primary" v-on:click="add_user()">Add User</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade bs-example-modal-lg-edit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+          </button>
+        </div>
+
+        <form method="post">
+          <div class="modal-body">
+            
+              <div class="row">
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                      <label>First name</label>
+                      <input type="text" v-model="first_name_edit" required="required" class="form-control">
+                  </div>
+
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                      <label>Last name</label>
+                      <input type="text" v-model="last_name_edit" required="required" class="form-control">
+                  </div>
+
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                      <label>Email</label>
+                      <input type="text" v-model="email_edit" required="required" class="form-control">
+                  </div>
+              </div>
+              
+              <input type="hidden" v-model="product_id" >
+              <br><br>
+              <div class="alert alert-danger alert-dismissible" role="alert" v-if="x_error_update">
+                <ul v-for="(item, index) in error_update">
+                  <li>{$ index $}: {$ item $}</li>
+                </ul>
+              </div>
+
+            
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" id="btn_edit" class="btn btn-primary" v-on:click="edit_user()">Edit User</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade bs-example-modal-sm-delete" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+        
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form method="post">
+          <div class="modal-body">
+            Are you sure you want to remove the user? to delete press accept otherwise cancel
+              <input type="hidden" v-model="delete_user_id" >
+          </div>
+        
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" id="btn_delete" class="btn btn-primary" v-on:click="remove_user()">Accept</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+{% endblock contenido %}
+
+{% block js %}
+<script src="{% static '/vue/apps/usuario/list_user.js' %}"></script>
+
+<script>
+$(document).ready(function () {
+
+  $("#btn_delete").click(function () {
+    $(".bs-example-modal-sm-delete").modal('hide');
+  })
+})
+</script>
+{% endblock %}
+    

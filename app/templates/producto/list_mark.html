@@ -1,0 +1,58 @@
+{% extends 'control_panel.html' %} 
+{% load static %}
+
+{% block title %}Product list{% endblock title %}
+
+{% block titulo %}
+Mark list
+{% endblock titulo%}
+
+
+{% block bajada %}
+<a class="btn btn-app" data-toggle="modal" data-target=".bs-example-modal-lg">
+  <i class="fa fa-plus"></i> Add Mark
+</a>
+{% endblock bajada %}
+
+{% block contenido %}
+<div id="app">
+  <table id="datatable" class="table table-striped" style="width:100%">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name Mark</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="mark in mark_list" :key="mark.id">
+        <td>{$ mark.id $}</td>
+        <td>{$ mark.marca $}</td>
+        <td>
+          <button type="button" class="btn btn-primary btn-sm" v-on:click="get_mark(mark.id)" data-toggle="modal" data-target=".bs-example-modal-lg-edit">Edit</button>
+          <button type="button" class="btn btn-danger btn-sm" v-on:click="get_remove_mark(mark.id)" data-toggle="modal" data-target=".bs-example-modal-sm-delete">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  {% include 'producto/include/mark/modal_add_mark.html' %}
+  {% include 'producto/include/mark/modal_edit_mark.html' %}
+  {% include 'producto/include/mark/modal_delete.html' %}
+
+</div>
+
+{% endblock contenido %}
+
+{% block js %}
+<script src="{% static '/vue/apps/producto/list_mark.js' %}"></script>
+
+<script>
+$(document).ready(function () {
+  $("#btn_delete").click(function () {
+    $(".bs-example-modal-sm-delete").modal('hide');
+  })
+})
+</script>
+{% endblock %}
+    

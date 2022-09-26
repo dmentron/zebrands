@@ -1,0 +1,47 @@
+{% extends 'control_panel.html' %} 
+{% load static %}
+
+{% block title %}User list{% endblock title %}
+
+{% block titulo %}
+User list
+{% endblock titulo%}
+
+
+{% block bajada %}
+{% endblock bajada %}
+
+{% block contenido %}
+<div id="app">
+  <table class="table table-striped" style="width:100%">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Product</th>
+        <th>Mark</th>
+        <th>Type</th>
+        <th>Ip</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="anonymus in the_anonymus_list" :key="anonymus.id">
+        <td>{$ anonymus.id $}</td>
+        <td>{$ anonymus.producto.nombre $}</td>
+        <td>{$ anonymus.producto.marca.marca $}</td>
+        <td>{$ anonymus.producto.tipo_producto.nombre_tipo $}</td>
+        <td>{$ anonymus.ips $}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+{% endblock contenido %}
+
+{% block js %}
+<script src="{% static '/vue/apps/portal/user_anonymus.js' %}"></script>
+
+<script>
+
+</script>
+{% endblock %}
+    

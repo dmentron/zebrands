@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>products</title>
+
+      <!-- Bootstrap -->
+      <link href="{% static '/vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <h1 class="text-center">Products</h1>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-md-3" v-for="producto in product_list" :key="producto.id">
+                    <a href="javascript:void();" v-on:click="add_seguimiento(producto.id)">
+                        <img src="https://admin.lomastravel.com.mx/images/gallery_weddings/paquetes/default.jpg" class="img-thumbnail">
+
+                        <p>Nombre: {$ producto.nombre $}</p>
+                        <p>marca: {$ producto.marca.marca $}</p>
+                        <p>precio: {$ producto.precio $}</p>
+                        <p>stock: {$ producto.stock $}</p>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</body>
+    <script src="{% static '/vue/vue.js' %}"></script>
+    <script src="{% static '/js/axios.min.js' %}"></script>
+    <script src="{% static '/vue/apps/portal/view_portal.js' %}"></script>
+    <!-- jQuery -->
+    <script src="{% static '/vendors/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap -->
+   <script src="{% static '/vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+</html>
